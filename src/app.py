@@ -1,4 +1,6 @@
+import os
 import logging
+import time
 from openai import ChatCompletion
 from .utils import *
 
@@ -7,24 +9,42 @@ def main():
     logging.info("Starting the program")
 
     announce("Hello", prefix="? Bot: ")
-    file_path = prompt_string("Enter the file path:")
+    file_path = prompt_string("Enter the path:")
+    if is_directory(file_path):
+        content = get_directory_content(file_path)
+    else:
+        content = read_file(file_path)
 
     while True:
         prompt = prompt_string("Enter your prompt:")
-        content = read_file(file_path)
 
         if content is None:
             logging.error(f"Unable to read file: {file_path}")
             break
 
-        response = generate_response(prompt, content)
-        announce(response, prefix="? Bot: ")
+        print("? Bot:")
+        generate_response(prompt, content)
+        print("\n")
 
         should_continue = prompt_confirm("Do you want to continue? (yes/no)")
         if not should_continue:
             break
 
     announce("Goodbye", prefix="Bot: ")
+
+def is_directory(path: str) -> bool:
+    return os.path.isdir(path)
+
+# Get the content of each file in a directory and return a list
+def get_directory_content(path: str) -> str:
+    file_contents = []
+    for filename in os.listdir(path):
+        file_path = os.path.join(path, filename)
+        if os.path.isfile(file_path):
+            with open(file_path, 'r') as file:
+                content = file.read()
+                file_contents.append(content)
+    return file_contents
 
 def read_file(path: str) -> str:
     try:
@@ -37,7 +57,7 @@ def read_file(path: str) -> str:
         logging.error(f"Error reading file: {path}, {e}")
         return None
 
-def generate_response(prompt: str, content: str) -> str:
+def generate_response(prompt: str, content: str):
     try:
         response = ChatCompletion.create(
             model="gpt-4",
@@ -46,9 +66,26 @@ def generate_response(prompt: str, content: str) -> str:
                 {"role": "user", "content": f"Content:\n\n{content}"},
                 {"role": "user", "content": f"Prompt: {prompt}"},
             ],
-            temperature=0.1
+            temperature=0.1,
+            stream=True
         )
-        return llm_response(response)
+
+        stripped = False
+        for event in response:
+            delta = event.get('choices')[0].get('delta')
+            event_text = None
+            if delta:
+                event_text = delta.get('content')
+
+            if not event_text:
+                continue
+
+            if not stripped:
+                event_text = event_text.strip()
+                stripped = True
+
+            stream(event_text)
+
     except Exception as e:
         logging.error(f"Error generating response: {e}")
         return "An error occurred while generating the response. Please try again."

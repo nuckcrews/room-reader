@@ -1,8 +1,10 @@
+import sys
 import json
 from PyInquirer import prompt
 
 __all__ = [
     "announce",
+    "stream",
     "prompt_confirm",
     "prompt_string",
     "prompt_list",
@@ -16,6 +18,14 @@ def announce(message, prefix: str = ""):
     cyan = '\033[96m'
     default = '\033[0m'
     print("{0}{1}{2}{3}".format(prefix, cyan, message, default))
+
+
+def stream(message, prefix: str = ""):
+    # Function to print a colored message
+    cyan = '\033[96m'
+    default = '\033[0m'
+    print("{0}{1}{2}{3}".format(prefix, cyan, message, default), end="")
+    sys.stdout.flush()
 
 
 def prompt_confirm(question_message, default=True):
@@ -68,6 +78,7 @@ def llm_response(obj: any) -> str:
     except KeyError:
         # Return None if the required keys are not found
         return None
+
 
 def llm_json(obj: any):
     """
