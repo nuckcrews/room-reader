@@ -1,6 +1,6 @@
 import logging
 from openai import ChatCompletion
-from utils import stream
+from .utils import stream
 
 def generate_response(prompt: str, content: str):
     try:

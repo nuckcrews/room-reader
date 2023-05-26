@@ -6,6 +6,7 @@ from .generate import generate_response
 from .extract import Extractor
 from .utils import *
 
+
 def main():
     setup_logging()
     logging.info("Starting the program")
@@ -31,8 +32,11 @@ def main():
 
     announce("Goodbye", prefix="Bot: ")
 
+
 def setup_logging():
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+    logging.basicConfig(level=logging.INFO,
+                        format="%(asctime)s - %(levelname)s - %(message)s")
+
 
 if __name__ == "__main__":
     main()
