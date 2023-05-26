@@ -32,11 +32,10 @@ class Extractor():
             return self.read_docx_file(path)
         elif self.is_xlsx_file(path):
             return self.read_xlsx_file(path)
+        elif self.is_csv_file(path):
+            return self.read_csv_file(path)
         else:
             return self.read_file(path)
-
-    def is_docx_file(self, path) -> bool:
-        return path.endswith(".docx")
 
     def read_file(self, path) -> str:
         try:
@@ -49,7 +48,9 @@ class Extractor():
             logging.error(f"Error reading file: {path}, {e}")
             return None
 
-    # read docx file utf-8
+    def is_docx_file(self, path) -> bool:
+        return path.endswith(".docx")
+
     def read_docx_file(self, path: str) -> str:
         try:
             return docx2txt.process(path)
@@ -60,10 +61,35 @@ class Extractor():
     def is_xlsx_file(self, path) -> bool:
         return path.endswith(".xlsx")
 
-    # Read data from excel .xlsx file
     def read_xlsx_file(self, path: str) -> str:
         try:
             return pd.read_excel(path)
         except Exception as e:
             logging.error(f"Error reading xlsx file: {path}, {e}")
+            return None
+
+    def is_csv_file(self, path) -> bool:
+        return path.endswith(".csv")
+
+    def read_csv_file(self, path: str) -> str:
+        try:
+            return pd.read_csv(path)
+        except Exception as e:
+            logging.error(f"Error reading csv file: {path}, {e}")
+            return None
+
+    def is_pdf_file(self, path) -> bool:
+        return path.endswith(".pdf")
+
+    def read_pdf_file(self, path: str) -> str:
+        try:
+            pdfReader = PyPDF2.PdfFileReader(path)
+            content = ""
+            for i in range(pdfReader.numPages):
+                obj = pdfReader.getPage(i)
+                content += obj.extractText()
+
+            return content
+        except Exception as e:
+            logging.error(f"Error reading pdf file: {path}, {e}")
             return None
