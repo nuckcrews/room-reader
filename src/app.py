@@ -1,19 +1,21 @@
 import os
 import logging
-import time
-from openai import ChatCompletion
-from .generate import generate_response
+from .chat import ChatBot
 from .extract import Extractor
 from .utils import *
 
 
 def main():
     setup_logging()
+    os.system("clear")
+
     logging.info("Starting the program")
 
     announce("Hello", prefix="? Bot: ")
     file_path = prompt_string("Enter the path:")
     content = Extractor(file_path).extract()
+
+    chat = ChatBot(content)
 
     while True:
         prompt = prompt_string("Enter your prompt:")
@@ -23,10 +25,10 @@ def main():
             break
 
         print("? Bot:")
-        generate_response(prompt, content)
+        chat.send(prompt)
         print("\n")
 
-        should_continue = prompt_confirm("Do you want to continue? (yes/no)")
+        should_continue = prompt_confirm("Do you want to continue?")
         if not should_continue:
             break
 

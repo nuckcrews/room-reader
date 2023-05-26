@@ -1,6 +1,7 @@
 import os
 import logging
 import docx2txt
+import PyPDF2
 import pandas as pd
 from .utils import *
 
@@ -16,6 +17,9 @@ class Extractor():
         else:
             return self.extract_from_file(path=self.base_path)
 
+    def file_name(self, path) -> str:
+        return os.path.basename(path)
+
     def is_directory(self) -> bool:
         return os.path.isdir(self.base_path)
 
@@ -28,14 +32,19 @@ class Extractor():
         return file_contents
 
     def extract_from_file(self, path: str) -> str:
+        content = ""
         if self.is_docx_file(path):
-            return self.read_docx_file(path)
+            content = self.read_docx_file(path)
         elif self.is_xlsx_file(path):
-            return self.read_xlsx_file(path)
+            content = self.read_xlsx_file(path)
         elif self.is_csv_file(path):
-            return self.read_csv_file(path)
+            content = self.read_csv_file(path)
+        elif self.is_pdf_file(path):
+            content = self.read_pdf_file(path)
         else:
-            return self.read_file(path)
+            content = self.read_file(path)
+
+        return "File: {0}\n\n{1}".format(self.file_name(path), str(self.strip(content)))
 
     def read_file(self, path) -> str:
         try:
@@ -83,13 +92,19 @@ class Extractor():
 
     def read_pdf_file(self, path: str) -> str:
         try:
-            pdfReader = PyPDF2.PdfFileReader(path)
+
+            pdfReader = PyPDF2.PdfReader(path)
             content = ""
-            for i in range(pdfReader.numPages):
-                obj = pdfReader.getPage(i)
-                content += obj.extractText()
+            for i in range(len(pdfReader.pages)):
+                pageObj = pdfReader.pages[i]
+                content += pageObj.extract_text()
 
             return content
         except Exception as e:
             logging.error(f"Error reading pdf file: {path}, {e}")
             return None
+
+    def strip(self, content: str) -> str:
+        if content is None:
+            return None
+        return content[:8000]
