@@ -12,10 +12,9 @@ class ChatBot():
     def __init__(self, content):
         self.content = content
         self.messages = [
-            {"role": "system", "content": "You are a highly competent investment analyst. Respond based on the content from the file and the user prompt."},
+            {"role": "system", "content": "You are a highly intelligent investment analyst. You prioritize quantitative analysis and accurate data. Respond based on the content from the file and the user prompt."},
             {"role": "user", "content": f"Content:\n\n{content}"}
         ]
-
 
     def send(self, prompt: str):
         try:
