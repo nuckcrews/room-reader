@@ -1,5 +1,6 @@
 import sys
 import json
+import tiktoken
 from PyInquirer import prompt
 
 __all__ = [
@@ -9,7 +10,9 @@ __all__ = [
     "prompt_string",
     "prompt_list",
     "llm_response",
-    "llm_json"
+    "llm_json",
+    "num_tokens",
+    "is_token_overflow",
 ]
 
 
@@ -94,3 +97,22 @@ def llm_json(obj: any):
     except (KeyError, json.JSONDecodeError):
         # Return None if the required keys are not found or if the content is not valid JSON
         return None
+
+encoding_4 = tiktoken.encoding_for_model("gpt-4")
+encoding_3_5 = tiktoken.encoding_for_model("gpt-3.5-turbo")
+
+def num_tokens(content: str, model="gpt-4"):
+    if model == "gpt-3.5-turbo":
+        encoding = encoding_3_5
+    else:
+        encoding = encoding_4
+
+    return len(encoding.encode(content))
+
+
+def is_token_overflow(content: str, model="gpt-4"):
+    if model == "gpt-3.5-turbo":
+        max_tokens = 3900
+    else:
+        max_tokens = 8000
+    return num_tokens(content, model=model) > max_tokens

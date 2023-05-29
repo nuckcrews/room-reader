@@ -1,7 +1,6 @@
 import os
 import logging
 from .chat import ChatBot
-from .extract import Extractor
 from .utils import *
 
 
@@ -13,17 +12,10 @@ def main():
 
     announce("Hello", prefix="? Bot: ")
     file_path = prompt_string("Enter the path:")
-    content = Extractor(file_path).extract()
-
-    chat = ChatBot(content)
+    chat = ChatBot(file_path)
 
     while True:
         prompt = prompt_string("Enter your prompt:")
-
-        if content is None:
-            logging.error(f"Unable to read file: {file_path}")
-            break
-
         print("? Bot:")
         chat.send(prompt)
         print("\n")
