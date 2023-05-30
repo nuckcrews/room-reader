@@ -5,9 +5,17 @@ import PyPDF2
 import pandas as pd
 from .utils import *
 
+__all__ = ["File", "Extractor"]
 
-class Extractor():
 
+class File:
+    def __init__(self, path: str, name: str, content: str):
+        self.path = path
+        self.name = name
+        self.content = content
+
+
+class Extractor:
     def __init__(self, path: str):
         self.base_path = path
 
@@ -44,7 +52,13 @@ class Extractor():
         else:
             content = self.read_file(path)
 
-        return "File: {0}\n\n{1}".format(self.file_name(path), str(self.strip(content)))
+        return File(
+            path=path,
+            name=self.file_name(path),
+            content="File: {0}\n\n{1}".format(
+                self.file_name(path), str(self.strip(content))
+            ),
+        )
 
     def read_file(self, path) -> str:
         try:
@@ -72,7 +86,7 @@ class Extractor():
 
     def read_xlsx_file(self, path: str) -> str:
         try:
-            return pd.read_excel(path)
+            return pd.read_excel(path).to_string()
         except Exception as e:
             logging.error(f"Error reading xlsx file: {path}, {e}")
             return None
@@ -82,7 +96,7 @@ class Extractor():
 
     def read_csv_file(self, path: str) -> str:
         try:
-            return pd.read_csv(path)
+            return pd.read_csv(path).to_string()
         except Exception as e:
             logging.error(f"Error reading csv file: {path}, {e}")
             return None
@@ -92,7 +106,6 @@ class Extractor():
 
     def read_pdf_file(self, path: str) -> str:
         try:
-
             pdfReader = PyPDF2.PdfReader(path)
             content = ""
             for i in range(len(pdfReader.pages)):

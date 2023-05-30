@@ -26,3 +26,5 @@ ops_list.txt
 example/data.json
 
 tmp_ai/
+.memory/session.csv
+example/

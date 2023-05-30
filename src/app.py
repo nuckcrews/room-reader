@@ -24,7 +24,7 @@ def main():
         if not should_continue:
             break
 
-    announce("Goodbye", prefix="Bot: ")
+    announce("Goodbye", prefix="? Bot: ")
 
 
 def setup_logging():

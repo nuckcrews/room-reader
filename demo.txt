@@ -1,0 +1,48 @@
+File: SaleData.xlsx
+
+    OrderDate   Region  Manager   SalesMan          Item   Units  Unit_price   Sale_amt
+0  2018-01-06     East   Martha  Alexander    Television   95.00    1198.000  113810.00
+1  2018-01-23  Central  Hermann     Shelli  Home Theater   50.00     500.000   25000.00
+2  2018-02-09  Central  Hermann       Luis    Television   36.00    1198.000   43128.00
+3  2018-02-26  Central  Timothy      David    Cell Phone   27.00     225.000    6075.00
+4  2018-03-15     West  Timothy    Stephen    Television   56.00    1198.000   67088.00
+5  2018-04-01     East   Martha  Alexander  Home Theater   60.00     500.000   30000.00
+6  2018-04-18  Central   Martha     Steven    Television   75.00    1198.000   89850.00
+7  2018-05-05  Central  Hermann       Luis    Television   90.00    1198.000  107820.00
+8  2018-05-22     West  Douglas    Michael    Television   32.00    1198.000   38336.00
+9  2018-06-08     East   Martha  Alexander  Home Theater   60.00     500.000   30000.00
+10 2018-06-25  Central  Hermann      Sigal    Television   90.00    1198.000  107820.00
+11 2018-07-12     East   Martha      Diana  Home Theater   29.00     500.000   14500.00
+12 2018-07-29     East  Douglas      Karen  Home Theater   81.00     500.000   40500.00
+13 2018-08-15     East   Martha  Alexander    Television   35.00    1198.000   41930.00
+14 2018-09-01  Central  Douglas       John          Desk    2.00     125.000     250.00
+15 2018-09-18     East   Martha  Alexander   Video Games   16.00      58.500     936.00
+16 2018-10-05  Central  Hermann      Sigal  Home Theater   28.00     500.000   14000.00
+17 2018-10-22     East   Martha  Alexander    Cell Phone   64.00     225.000   14400.00
+18 2018-11-08     East  Douglas      Karen    Cell Phone   15.00     225.000    3375.00
+19 2018-11-25  Central  Hermann     Shelli   Video Games   96.00      58.500    5616.00
+20 2018-12-12  Central  Douglas       John    Television   67.00    1198.000   80266.00
+21 2018-12-29     East  Douglas      Karen   Video Games   74.00      58.500    4329.00
+22 2019-01-15  Central  Timothy      David  Home Theater   46.00     500.000   23000.00
+23 2019-02-01  Central  Douglas       John  Home Theater   87.00     500.000   43500.00
+24 2019-02-18     East   Martha  Alexander  Home Theater    4.00     500.000    2000.00
+25 2019-03-07     West  Timothy    Stephen  Home Theater    7.00     500.000    3500.00
+26 2019-03-24  Central  Hermann       Luis   Video Games   50.00      58.500    2925.00
+27 2019-04-10  Central   Martha     Steven    Television   66.00    1198.000   79068.00
+28 2019-04-27     East   Martha      Diana    Cell Phone   96.00     225.000   21600.00
+29 2019-05-14  Central  Timothy      David    Television   53.00    1198.000   63494.00
+30 2019-05-31  Central  Timothy      David  Home Theater   80.00     500.000   40000.00
+31 2019-06-17  Central  Hermann     Shelli          Desk    5.00     125.000     625.00
+32 2019-07-04     East   Martha  Alexander   Video Games   62.00      58.500    3627.00
+33 2019-07-21  Central  Hermann      Sigal   Video Games   55.00      58.500    3217.50
+34 2019-08-07  Central  Hermann     Shelli   Video Games   42.00      58.500    2457.00
+35 2019-08-24     West  Timothy    Stephen          Desk    3.00     125.000     375.00
+36 2019-09-10  Central  Timothy      David    Television    7.00    1198.000    8386.00
+37 2019-09-27     West  Timothy    Stephen    Cell Phone   76.00     225.000   17100.00
+38 2019-10-14     West  Douglas    Michael  Home Theater   57.00     500.000   28500.00
+39 2019-10-31  Central   Martha     Steven    Television   14.00    1198.000   16772.00
+40 2019-11-17  Central  Hermann       Luis  Home Theater   11.00     500.000    5500.00
+41 2019-12-04  Central  Hermann       Luis  Home Theater   94.00     500.000   47000.00
+42 2019-12-21  Central   Martha     Steven  Home Theater   28.00     500.000   14000.00
+43        NaT      NaN      NaN        NaN           NaN  278.00    1125.000   62550.00
+44        NaT      NaN      NaN        NaN           NaN   34.75     140.625    7818.75
