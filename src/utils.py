@@ -1,7 +1,10 @@
 import sys
 import json
 import tiktoken
+import logging
 from PyInquirer import prompt
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 __all__ = [
     "announce",
@@ -21,6 +24,7 @@ def announce(message, prefix: str = ""):
     cyan = '\033[96m'
     default = '\033[0m'
     print("{0}{1}{2}{3}".format(prefix, cyan, message, default))
+    logging.info(f"{prefix}{message}")
 
 
 def stream(message, prefix: str = ""):
@@ -29,12 +33,13 @@ def stream(message, prefix: str = ""):
     default = '\033[0m'
     print("{0}{1}{2}{3}".format(prefix, cyan, message, default), end="")
     sys.stdout.flush()
+    logging.info(f"{prefix}{message}")
 
 
 def prompt_confirm(question_message, default=True):
     # Function to prompt a confirmation question
 
-    return prompt(
+    result = prompt(
         {
             'type': 'confirm',
             'name': 'name',
@@ -42,12 +47,14 @@ def prompt_confirm(question_message, default=True):
             'default': default
         }
     ).get('name')
+    logging.info(f"Confirmation prompt: {question_message}, result: {result}")
+    return result
 
 
 def prompt_string(question_message, default=None):
     # Function to prompt a string input question
 
-    return prompt(
+    result = prompt(
         {
             'type': 'input',
             'name': 'name',
@@ -55,11 +62,13 @@ def prompt_string(question_message, default=None):
             'default': default if default else ""
         }
     ).get('name')
+    logging.info(f"String prompt: {question_message}, result: {result}")
+    return result
 
 
 def prompt_list(question_message, choices, default=None):
     # Function to prompt a list selection question
-    return prompt(
+    result = prompt(
         {
             'type': 'list',
             'name': 'name',
@@ -68,6 +77,8 @@ def prompt_list(question_message, choices, default=None):
             'default': default
         }
     ).get('name')
+    logging.info(f"List prompt: {question_message}, result: {result}")
+    return result
 
 
 def llm_response(obj: any) -> str:
@@ -77,9 +88,12 @@ def llm_response(obj: any) -> str:
 
     try:
         # Get the content of the first choice in the LLM output
-        return obj["choices"][0]["message"]["content"]
+        result = obj["choices"][0]["message"]["content"]
+        logging.info(f"LLM response: {result}")
+        return result
     except KeyError:
         # Return None if the required keys are not found
+        logging.error("KeyError in LLM response")
         return None
 
 
@@ -93,9 +107,12 @@ def llm_json(obj: any):
         # Get the content of the first choice in the LLM output
         result = obj["choices"][0]["message"]["content"]
         # Convert the content to JSON and return it
-        return json.loads(result)
+        json_result = json.loads(result)
+        logging.info(f"LLM JSON response: {json_result}")
+        return json_result
     except (KeyError, json.JSONDecodeError):
         # Return None if the required keys are not found or if the content is not valid JSON
+        logging.error("Error in LLM JSON response")
         return None
 
 encoding_4 = tiktoken.encoding_for_model("gpt-4")
@@ -107,7 +124,9 @@ def num_tokens(content: str, model="gpt-4"):
     else:
         encoding = encoding_4
 
-    return len(encoding.encode(content))
+    token_count = len(encoding.encode(content))
+    logging.info(f"Number of tokens for content: {token_count}")
+    return token_count
 
 
 def is_token_overflow(content: str, model="gpt-4"):
@@ -115,4 +134,7 @@ def is_token_overflow(content: str, model="gpt-4"):
         max_tokens = 3900
     else:
         max_tokens = 8000
-    return num_tokens(content, model=model) > max_tokens
+    token_overflow = num_tokens(content, model=model) > max_tokens
+    if token_overflow:
+        logging.warning(f"Token overflow detected: {content}")
+    return token_overflow

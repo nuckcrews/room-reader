@@ -1,3 +1,4 @@
+import logging
 import pandas as pd
 import numpy as np
 from openai import ChatCompletion, Completion
@@ -11,6 +12,9 @@ __all__ = [
 
 session_memory_path = ".memory/session.csv"
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 class Memory():
 
     def __init__(self, system_prompt, content_path):
@@ -20,6 +24,7 @@ class Memory():
 
 
     def initialize(self):
+        logger.info("Initializing memory")
         files = Extractor(self.content_path).extract()
         self._embed(files)
 
@@ -54,6 +59,7 @@ class Memory():
         self.chat_messages.append({"role": "assistant", "content": bot_chat_message})
 
     def _embed(self, files: list[File]):
+        logger.info("Embedding files")
         embeddings = []
         for file in files:
             embedding = get_embedding(
@@ -71,6 +77,7 @@ class Memory():
         df.to_csv(session_memory_path)
 
     def _find_nearest_paths(self, prompt: str, k: int = 4):
+        logger.info("Finding nearest paths")
         prompt_embedding = get_embedding(
             prompt,
             engine="text-embedding-ada-002",
@@ -82,9 +89,11 @@ class Memory():
         return df.sort_values("similarity", ascending=False).head(k).path.tolist()
 
     def _remove_earliest_chat(self):
+        logger.info("Removing earliest chat")
         self.chat_messages.pop(0)
 
     def _create_memory_prompt(self):
+        logger.info("Creating memory prompt")
         response = Completion.create(
             model="text-curie-001",
             prompt=self._memory_context(),

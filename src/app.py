@@ -12,6 +12,10 @@ def main():
 
     announce("Hello", prefix="? Bot: ")
     file_path = prompt_string("Enter the path:")
+    if not os.path.exists(file_path):
+        logging.error(f"File not found: {file_path}")
+        return
+
     chat = ChatBot(file_path)
 
     while True:

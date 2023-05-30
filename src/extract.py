@@ -7,6 +7,8 @@ from .utils import *
 
 __all__ = ["File", "Extractor"]
 
+logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 class File:
     def __init__(self, path: str, name: str, content: str):
