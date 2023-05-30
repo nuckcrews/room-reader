@@ -26,7 +26,6 @@ class Memory():
     def context(self):
         memory_prompt = self._create_memory_prompt()
         files_paths = self._find_nearest_paths(memory_prompt)
-        print(files_paths)
         content = "\n\n-----\n".join([Extractor(path).extract().content for path in files_paths])
         content_message = {"role": "user", "content": f"Content:\n\n{content}"}
 
@@ -72,7 +71,6 @@ class Memory():
         df.to_csv(session_memory_path)
 
     def _find_nearest_paths(self, prompt: str, k: int = 4):
-        print(prompt)
         prompt_embedding = get_embedding(
             prompt,
             engine="text-embedding-ada-002",
