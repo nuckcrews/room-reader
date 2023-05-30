@@ -1,0 +1,18 @@
+name: Room Reader
+
+description: A python chat app that answers questions based on your local files.
+
+languages:
+- python
+
+exclude:
+- LICENSE
+- requirements.txt
+- .gitignore
+- .env.example
+- gptop.egg-info
+- build
+- dist
+- "*.keys"
+- "*.pyc"
+- venv/
