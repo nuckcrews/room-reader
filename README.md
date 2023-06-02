@@ -1,4 +1,4 @@
-# AnalystAI
+# Room Reader
 
 ## Setup
 

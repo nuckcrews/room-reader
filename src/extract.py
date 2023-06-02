@@ -56,7 +56,7 @@ class Extractor:
             path=path,
             name=self.file_name(path),
             content="File: {0}\n\n{1}".format(
-                self.file_name(path), str(self.strip(content))
+                self.file_name(path), str(content)
             ),
         )
 
