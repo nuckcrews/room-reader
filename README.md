@@ -31,10 +31,16 @@
    $ cp .env.example .env
    ```
 
-## CLI
+## Applications
 
-Run the application
+#### General Room Reader
 
 ```bash
 ./run.sh
+```
+
+#### Excel Pilot
+
+```bash
+./excel.sh
 ```
