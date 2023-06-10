@@ -3,7 +3,9 @@
         "langchain",
         "levelname",
         "pretrained",
-        "tiktoken"
+        "tiktoken",
+        "virt",
+        "virtualenv"
     ],
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
