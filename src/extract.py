@@ -45,6 +45,8 @@ class Extractor:
             content = self.read_docx_file(path)
         elif self.is_xlsx_file(path):
             content = self.read_xlsx_file(path)
+        elif self.is_xls_file(path):
+            content = self.read_xls_file(path)
         elif self.is_csv_file(path):
             content = self.read_csv_file(path)
         elif self.is_pdf_file(path):
@@ -55,9 +57,7 @@ class Extractor:
         return File(
             path=path,
             name=self.file_name(path),
-            content="File: {0}\n\n{1}".format(
-                self.file_name(path), str(self.strip(content))
-            ),
+            content=str(self.strip(content))
         )
 
     def read_file(self, path) -> str:
@@ -91,6 +91,16 @@ class Extractor:
             logging.error(f"Error reading xlsx file: {path}, {e}")
             return None
 
+    def is_xls_file(self, path) -> bool:
+        return path.endswith(".xls")
+
+    def read_xls_file(self, path: str) -> str:
+        try:
+            return pd.read_excel(path).to_string()
+        except Exception as e:
+            logging.error(f"Error reading xls file: {path}, {e}")
+            return None
+
     def is_csv_file(self, path) -> bool:
         return path.endswith(".csv")
 
@@ -120,4 +130,4 @@ class Extractor:
     def strip(self, content: str) -> str:
         if content is None:
             return None
-        return content[:8000]
+        return content
