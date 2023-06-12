@@ -8,9 +8,12 @@ __all__ = ["ThropicBot"]
 
 class ThropicBot:
     def __init__(self, content_path: str):
-        self.memory = Memory("You are a highly intelligent investment analyst. You prioritize quantitative analysis and accurate data. Respond based on the content from the file and the user prompt.", content_path)
+        self.memory = Memory(
+            "You are a highly intelligent investment analyst. You prioritize quantitative analysis and accurate data. Respond based on the content from the file and the user prompt.",
+            content_path,
+        )
         self.memory.initialize()
-        self.client = anthropic.Client(os.environ['ANTHROPIC_API_KEY'])
+        self.client = anthropic.Client(os.environ["ANTHROPIC_API_KEY"])
 
     def send(self, prompt: str):
         self.memory.add_chat(prompt)
