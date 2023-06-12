@@ -3,6 +3,7 @@
         "langchain",
         "levelname",
         "pretrained",
+        "thropic",
         "tiktoken",
         "virt",
         "virtualenv"

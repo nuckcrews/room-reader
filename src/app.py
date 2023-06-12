@@ -2,7 +2,7 @@ import os
 import logging
 from .chat import ChatBot
 from .utils import *
-
+from .extract import Extractor
 
 def main():
     setup_logging()
