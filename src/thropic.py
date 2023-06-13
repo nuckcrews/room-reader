@@ -36,4 +36,4 @@ class ThropicBot:
                 full_context.append(f"User message: {message}")
             elif message["role"] == "assistant":
                 full_context.append(f"Assistant message: {message}")
-        return "\n".join(full_context)
+        return "\n\n".join(full_context)
